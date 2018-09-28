@@ -2,8 +2,8 @@
 -- (c) 2018, Jericho Crosby <jericho.crosby227@gmail.com>
 display.setStatusBar(display.HiddenStatusBar)
 local composer = require('composer')
-local databox = require('modules.data_handler')
-databox({})
+local data_handler = require('modules.data_handler')
+data_handler({})
 -- Keeps the screen ON while idle.
 system.setIdleTimer( false )
 

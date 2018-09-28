@@ -70,7 +70,7 @@ local function setUpDisplay(Group)
             onRelease = function(object)
                 if data_handler['button' .. i] == true then
                     data_handler['button' .. i] = false
-                    buttons[i].alpha = 1
+                    checkmark(buttons[i], true)
                 else
                     data_handler['button' .. i] = true
                     if (count >= 0 or count == nil) and (count < #labels - 1) then
@@ -79,18 +79,16 @@ local function setUpDisplay(Group)
                         sounds.play('onComplete')
                         background:removeSelf()
                         title:removeSelf()
-                        for hh = 1, #labels do
-                            buttons[hh]:removeSelf()
-                        end
+                        for j = 1, #labels do buttons[j]:removeSelf() end
                         composer.gotoScene("scenes.finish")
                     end
-                    checkmark(buttons[i])
+                    checkmark(buttons[i], false)
                     tasks_completed(1)
                 end
             end
         })
         buttons[i]:scale(0.75, 0.90)
-        if data_handler['button' .. i] then checkmark(buttons[i]) end
+        if data_handler['button' .. i] then checkmark(buttons[i], false) end
         x = x + 1
         local row_spacing = .05
         if x == 3 then
@@ -132,12 +130,12 @@ function saveStatus(total)
     file:close()
 end
 
-function checkmark(button)
-    local check = display.newImageRect('images/miscellaneous/check.png', 15, 15)
-    check.anchorX, check.anchorY = 1, 1
-    check.x, check.y = button.width - 13, button.height - 15
-    button:insert(check)
-    button.alpha = 0.5
+function checkmark(button, status)
+    if status == true then
+        button.alpha = 1
+    else
+        button.alpha = 0.5
+    end
 end
 
 --------------------------------------------------------------------------------------------------------------------------------------------------
