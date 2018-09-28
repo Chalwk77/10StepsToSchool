@@ -7,8 +7,10 @@ local sounds = require('libraries.sounds')
 local data_handler = require('modules.data_handler')
 local scene = composer.newScene()
 
-local count
 local tasks = {}
+local count
+local transition_delay = 500
+local finished_bool
 
 -- Common Screen Coordinates
 local centerX = display.contentCenterX
@@ -52,6 +54,7 @@ local function setUpDisplay(Group)
     --==========================================================================================================
     -- BUTTONS --
     local buttons = {}
+    button_group = display.newGroup()
     local x, y = -2, 0
     local button_spacing = 95
     for i = 1, #labels do
@@ -77,16 +80,21 @@ local function setUpDisplay(Group)
                         sounds.play('onClick')
                     elseif (count == #labels - 1) then
                         sounds.play('onComplete')
-                        background:removeSelf()
-                        title:removeSelf()
-                        for j = 1, #labels do buttons[j]:removeSelf() end
-                        composer.gotoScene("scenes.finish")
+                        finished_bool = true
+                        local onFinish = function()
+                            background:removeSelf()
+                            title:removeSelf()
+                            for j = 1, #labels do buttons[j]:removeSelf() end
+                            composer.gotoScene("scenes.finish")
+                        end
+                        local transition_scene = timer.performWithDelay(transition_delay, onFinish, 1)
                     end
                     checkmark(buttons[i], false)
                     tasks_completed(1)
                 end
             end
         })
+        button_group:insert(buttons[i])
         buttons[i]:scale(0.75, 0.90)
         if data_handler['button' .. i] then checkmark(buttons[i], false) end
         x = x + 1
@@ -133,8 +141,13 @@ end
 function checkmark(button, status)
     if status == true then
         button.alpha = 1
+        tasks_completed(-1)
     else
         button.alpha = 0.5
+    end
+    if finished_bool then
+        finished_bool = false
+        transition.to(button_group, {time = transition_delay, alpha = 0, x = - button_group.width, y = button_group.y})
     end
 end
 
