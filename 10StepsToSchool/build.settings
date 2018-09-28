@@ -1,0 +1,32 @@
+
+
+settings =
+{
+    plugins =
+    {
+    -- for a future update
+  		["plugin.braintonik-dialog"] = {publisherId = "com.braintonik"},
+    },
+  	excludeFiles =
+  	{
+  		-- Exclude unnecessary files for each platform
+  		all = { "Icon.png", "Icon-*dpi.png", "Images.xcassets", "Sothlink Project Files/*.lmk"},
+  		android = { "LaunchScreen.storyboardc", },
+  	},
+    window = {
+  		defaultMode = 'normal',
+  		titleText = {default = 'APPLICATION NAME'}
+  	},
+    android =
+  	{
+  		installLocation = 'auto',
+  		usesPermissions = {"android.permission.INTERNET"},
+  	},
+    -- SCREEN ORIENTATION --
+    -- Valid Entries: portrait, portraitUpsideDown, landscapeLeft, landscapeRight
+    orientation =
+  	{
+  		default = "landscapeRight", -- APPLICATION WILL START IN THIS ORIENTATION
+  		supported = {"landscapeRight"},
+  	},
+}
