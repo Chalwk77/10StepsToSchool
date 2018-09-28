@@ -24,8 +24,19 @@ function fullScreenListener()
     end
 end
 
+if data_handler['finished'] == true then
+    data_handler['finished'] = false
+    local path = system.pathForFile( "tasks.txt", system.DocumentsDirectory)
+    local file = io.open (path, "w")
+    local value = 0
+    file:write(value)
+    file:close()
+    composer.gotoScene("scenes.menu")
+else
+    composer.gotoScene("scenes.menu")
+end
+
 -- Load Features
-composer.gotoScene("scenes.menu")
 fullScreenListener()
 
 --

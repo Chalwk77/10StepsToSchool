@@ -19,6 +19,10 @@ local function setUpDisplay(Group)
 end
 
 function scene:create( event )
+    for i = 1, #labels do
+        data_handler['button' .. i] = false
+    end
+    data_handler['finished'] = true
     local sceneGroup = self.view
     setUpDisplay(sceneGroup)
 end

@@ -18,7 +18,7 @@ local centerY = display.contentCenterY
 local screenTop = display.screenOriginY
 local screenHeight = display.viewableContentHeight - screenTop * 2
 
-local labels = {}
+labels = {}
 labels[1] = {"BREAKFAST", 10}
 labels[2] = {"WIPE PLACEMAT", 10}
 labels[3] = {"PLATE ON BENCH", 10}
@@ -41,7 +41,7 @@ local function setUpDisplay(Group)
     background.x = centerX
     background.y = centerY - 50
     background:scale(0.6, 0.6)
-    background.alpha = 0.75
+    background.alpha = 1
     -- TITLE LOGO --
     local title = display.newImage(bg_group, "images/miscellaneous/title_logo.png")
     title.xScale = (screen_adjustment * background.contentWidth) / background.contentWidth
@@ -95,7 +95,7 @@ local function setUpDisplay(Group)
             end
         })
         button_group:insert(buttons[i])
-        buttons[i]:scale(0.75, 0.90)
+        buttons[i]:scale(0.75, 0.95)
         if data_handler['button' .. i] then checkmark(buttons[i], false) end
         x = x + 1
         local row_spacing = .05
@@ -157,9 +157,8 @@ function scene:create( event )
     tasks = {["tasks"] = {}}
     tasks["tasks"][1] = {["total"] = 0}
     count = loadStatus()
-    if count < #labels then setUpDisplay(sceneGroup)
-    elseif count >= 10 then
-        composer.gotoScene("scenes.finish")
+    if count < #labels then
+        setUpDisplay(sceneGroup)
     end
 end
 function scene:show(event)
