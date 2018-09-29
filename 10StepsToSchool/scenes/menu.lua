@@ -89,8 +89,8 @@ local function setUpDisplay(Group)
                         end
                         local transition_scene = timer.performWithDelay(transition_delay, onFinish, 1)
                     end
-                    checkmark(buttons[i], false)
                     tasks_completed(1)
+                    checkmark(buttons[i], false)
                 end
             end
         })
@@ -110,10 +110,9 @@ end
 
 function tasks_completed(number)
     for k, v in pairs(tasks["tasks"]) do
-        if v.total >= 0 then
+        if v.total >= 0 or - 1 then
             tasks["tasks"][k].total = tasks["tasks"][k].total + number
             count = tasks["tasks"][k].total + (file_total or 0)
-            --if count <= -1 then count = 0 end
         end
     end
     saveStatus(count)
@@ -144,7 +143,7 @@ function checkmark(button, status)
         button.alpha = 1
         tasks_completed(-1)
     else
-        button.alpha = 0.5
+        button.alpha = 0.3
     end
     if finished_bool then
         finished_bool = false
