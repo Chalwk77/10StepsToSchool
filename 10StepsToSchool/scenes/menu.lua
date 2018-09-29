@@ -112,7 +112,8 @@ function tasks_completed(number)
     for k, v in pairs(tasks["tasks"]) do
         if v.total >= 0 then
             tasks["tasks"][k].total = tasks["tasks"][k].total + number
-            count = tasks["tasks"][k].total
+            count = tasks["tasks"][k].total + (file_total or 0)
+            --if count <= -1 then count = 0 end
         end
     end
     saveStatus(count)
@@ -157,6 +158,7 @@ function scene:create( event )
     tasks = {["tasks"] = {}}
     tasks["tasks"][1] = {["total"] = 0}
     count = loadStatus()
+    file_total = count
     if count < #labels then
         setUpDisplay(sceneGroup)
     end
